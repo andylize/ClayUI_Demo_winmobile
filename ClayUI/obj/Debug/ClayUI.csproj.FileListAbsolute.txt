@@ -1,0 +1,9 @@
+E:\Users\alize\My Documents\Projects\ClayUI_Demo_win\ClayUI\bin\Debug\ClayUI.dll
+E:\Users\alize\My Documents\Projects\ClayUI_Demo_win\ClayUI\bin\Debug\ClayUI.pdb
+E:\Users\alize\My Documents\Projects\ClayUI_Demo_win\ClayUI\obj\Debug\ResolveAssemblyReference.cache
+E:\Users\alize\My Documents\Projects\ClayUI_Demo_win\ClayUI\obj\Debug\ClayUI.dll
+E:\Users\alize\My Documents\Projects\ClayUI_Demo_win\ClayUI\obj\Debug\ClayUI.pdb
+E:\Users\alize\My Documents\Projects\ClayUI_Demo_win\ClayUI\bin\Debug\System.Data.SqlServerCe.dll
+E:\Users\alize\My Documents\Projects\ClayUI_Demo_win\ClayUI\bin\Debug\Newtonsoft.Json.Compact.dll
+E:\Users\alize\My Documents\Projects\ClayUI_Demo_win\ClayUI\bin\Debug\Newtonsoft.Json.Compact.pdb
+E:\Users\alize\My Documents\Projects\ClayUI_Demo_win\ClayUI\bin\Debug\Newtonsoft.Json.Compact.xml

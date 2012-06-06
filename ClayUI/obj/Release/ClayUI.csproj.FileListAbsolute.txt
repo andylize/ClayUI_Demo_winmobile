@@ -1,0 +1,6 @@
+E:\Users\alize\My Documents\Projects\ClayUI_Demo_win\ClayUI\bin\Release\ClayUI.dll
+E:\Users\alize\My Documents\Projects\ClayUI_Demo_win\ClayUI\bin\Release\ClayUI.pdb
+E:\Users\alize\My Documents\Projects\ClayUI_Demo_win\ClayUI\bin\Release\System.Data.SqlServerCe.dll
+E:\Users\alize\My Documents\Projects\ClayUI_Demo_win\ClayUI\obj\Release\ResolveAssemblyReference.cache
+E:\Users\alize\My Documents\Projects\ClayUI_Demo_win\ClayUI\obj\Release\ClayUI.dll
+E:\Users\alize\My Documents\Projects\ClayUI_Demo_win\ClayUI\obj\Release\ClayUI.pdb

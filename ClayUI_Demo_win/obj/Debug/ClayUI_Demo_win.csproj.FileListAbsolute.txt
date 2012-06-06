@@ -1,0 +1,14 @@
+E:\Users\alize\My Documents\Projects\ClayUI_Demo_win\ClayUI_Demo_win\bin\Debug\ClayUI_Demo_win.exe
+E:\Users\alize\My Documents\Projects\ClayUI_Demo_win\ClayUI_Demo_win\bin\Debug\ClayUI_Demo_win.pdb
+E:\Users\alize\My Documents\Projects\ClayUI_Demo_win\ClayUI_Demo_win\obj\Debug\ResolveAssemblyReference.cache
+E:\Users\alize\My Documents\Projects\ClayUI_Demo_win\ClayUI_Demo_win\obj\Debug\com.netinfocentral.ClayUI_Demo_win.MainForm.resources
+E:\Users\alize\My Documents\Projects\ClayUI_Demo_win\ClayUI_Demo_win\obj\Debug\com.netinfocentral.ClayUI_Demo_win.Properties.Resources.resources
+E:\Users\alize\My Documents\Projects\ClayUI_Demo_win\ClayUI_Demo_win\obj\Debug\ClayUI_Demo_win.csproj.GenerateResource.Cache
+E:\Users\alize\My Documents\Projects\ClayUI_Demo_win\ClayUI_Demo_win\obj\Debug\ClayUI_Demo_win.exe
+E:\Users\alize\My Documents\Projects\ClayUI_Demo_win\ClayUI_Demo_win\obj\Debug\ClayUI_Demo_win.pdb
+E:\Users\alize\My Documents\Projects\ClayUI_Demo_win\ClayUI_Demo_win\bin\Debug\ClayUI.dll
+E:\Users\alize\My Documents\Projects\ClayUI_Demo_win\ClayUI_Demo_win\bin\Debug\System.Data.SqlServerCe.dll
+E:\Users\alize\My Documents\Projects\ClayUI_Demo_win\ClayUI_Demo_win\bin\Debug\ClayUI.pdb
+E:\Users\alize\My Documents\Projects\ClayUI_Demo_win\ClayUI_Demo_win\bin\Debug\Newtonsoft.Json.Compact.dll
+E:\Users\alize\My Documents\Projects\ClayUI_Demo_win\ClayUI_Demo_win\bin\Debug\Newtonsoft.Json.Compact.pdb
+E:\Users\alize\My Documents\Projects\ClayUI_Demo_win\ClayUI_Demo_win\bin\Debug\Newtonsoft.Json.Compact.xml
