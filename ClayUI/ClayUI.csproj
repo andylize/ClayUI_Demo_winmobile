@@ -69,6 +69,7 @@
     <Compile Include="ClayUIAppBase.cs" />
     <Compile Include="ClayUIDatabaseHelper.cs" />
     <Compile Include="ClayUIWebServiceHelper.cs" />
+    <Compile Include="DataTableDatabaseHelper.cs" />
     <Compile Include="DataTableRecord.cs" />
     <Compile Include="DataTableSchema.cs" />
     <Compile Include="DataTableWebServiceHelper.cs" />

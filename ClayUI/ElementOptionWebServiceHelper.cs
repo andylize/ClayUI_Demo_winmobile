@@ -28,12 +28,12 @@ namespace com.netinfocentral.ClayUI
                 for (int i = 0; i < array.Count; i++)
                 {
                     JObject jObject = JObject.Parse(array[i].ToString());
-                    ElementOption option = new ElementOption(int.Parse(jObject["ElementOptionID"].ToString()),
-                        int.Parse(jObject["AppPartID"].ToString()),
-                        int.Parse(jObject["ElementID"].ToString()),
-                        jObject["Value"].ToString(),
-                        jObject["Description"].ToString(),
-                        int.Parse(jObject["Version"].ToString()));
+                    ElementOption option = new ElementOption(int.Parse(jObject["ElementOptionID"].ToString().Replace("\"", "")),
+                        int.Parse(jObject["AppPartID"].ToString().Replace("\"", "")),
+                        int.Parse(jObject["ElementID"].ToString().Replace("\"", "")),
+                        jObject["Value"].ToString().Replace("\"", ""),
+                        jObject["Description"].ToString().Replace("\"", ""),
+                        int.Parse(jObject["Version"].ToString().Replace("\"", "")));
 
                     // add to arraylist
                     options.Add(option);

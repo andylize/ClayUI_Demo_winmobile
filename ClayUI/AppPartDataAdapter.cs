@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Data.SqlServerCe;
 using System.Data;
+using System.Windows.Forms;
 
 namespace com.netinfocentral.ClayUI
 {
@@ -358,38 +359,42 @@ namespace com.netinfocentral.ClayUI
         // method to sync temp table with app part table
         private void Sync()
         {
-            try
+            using (this._conn = new SqlCeConnection(this._dbHelper.DatabaseConnStr))
             {
-                this._conn.Open();
-                SqlCeCommand cmd = this._conn.CreateCommand();
-                
-                //delete records in app part table which are not in temp table
-                cmd.CommandText = "DELETE FROM " + AppPartDatabaseHelper.TABLE_NAME + " " +
-                    "WHERE " + AppPartDatabaseHelper.COLUMN_ID + " NOT IN (SELECT " + AppPartDatabaseHelper.COLUMN_ID + 
-                    " FROM " + AppPartDatabaseHelper.TEMP_TABLE_NAME + ")";
-                cmd.ExecuteNonQuery();
+                try
+                {
+                    this._conn.Open();
+                    SqlCeCommand cmd = this._conn.CreateCommand();
 
-                // update records that exist in both tables
-                cmd.CommandText = "UPDATE " + AppPartDatabaseHelper.TABLE_NAME + " " +
-                    "SET " + AppPartDatabaseHelper.COLUMN_APP_PART_NAME + " = t." + AppPartDatabaseHelper.COLUMN_APP_PART_NAME + ", " +
-                    AppPartDatabaseHelper.COLUMN_VERSION + " = t." + AppPartDatabaseHelper.COLUMN_VERSION + " FROM " +
-                    AppPartDatabaseHelper.TABLE_NAME + " JOIN " + AppPartDatabaseHelper.TEMP_TABLE_NAME + " t ON (" +
-                    AppPartDatabaseHelper.TABLE_NAME + "." + AppPartDatabaseHelper.COLUMN_ID + " = t." + AppPartDatabaseHelper.COLUMN_ID + ")";
-                cmd.ExecuteNonQuery();
+                    //delete records in app part table which are not in temp table (Delete all due to limitaion in SQL Compact Edition)
+                    cmd.CommandText = "DELETE FROM " + AppPartDatabaseHelper.TABLE_NAME; /** +" " +
+                        "WHERE " + AppPartDatabaseHelper.COLUMN_ID + " NOT IN (SELECT " + AppPartDatabaseHelper.COLUMN_ID +
+                        " FROM " + AppPartDatabaseHelper.TEMP_TABLE_NAME + ")";**/
+                    cmd.ExecuteNonQuery();
 
-                // insert records that do not exist in app parts table
-                cmd.CommandText = "INSERT INTO " + AppPartDatabaseHelper.TABLE_NAME + " " +
-                    "SELECT " + AppPartDatabaseHelper.COLUMN_ID + ", " +
-                    AppPartDatabaseHelper.COLUMN_APP_PART_NAME + ", " +
-                    AppPartDatabaseHelper.COLUMN_VERSION + " FROM " + AppPartDatabaseHelper.TEMP_TABLE_NAME + " t " +
-                    "LEFT OUTER JOIN " + AppPartDatabaseHelper.TABLE_NAME + " a ON (t." + AppPartDatabaseHelper.COLUMN_ID + " = " +
-                    "a." + AppPartDatabaseHelper.COLUMN_ID + ") " +
-                    "WHERE a." + AppPartDatabaseHelper.COLUMN_ID + " IS NULL";
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
+                    // update records that exist in both tables (Skip due to limitation in SQL Compact Edition)
+                    /**cmd.CommandText = "UPDATE " + AppPartDatabaseHelper.TABLE_NAME + " " +
+                        "SET " + AppPartDatabaseHelper.COLUMN_APP_PART_NAME + " = t." + AppPartDatabaseHelper.COLUMN_APP_PART_NAME + ", " +
+                        AppPartDatabaseHelper.COLUMN_VERSION + " = t." + AppPartDatabaseHelper.COLUMN_VERSION + " FROM " +
+                        AppPartDatabaseHelper.TABLE_NAME + " JOIN " + AppPartDatabaseHelper.TEMP_TABLE_NAME + " t ON (" +
+                        AppPartDatabaseHelper.TABLE_NAME + "." + AppPartDatabaseHelper.COLUMN_ID + " = t." + AppPartDatabaseHelper.COLUMN_ID + ")";
+                    string sql = cmd.CommandText;
+                    cmd.ExecuteNonQuery();**/
+
+                    // insert records that do not exist in app parts table
+                    cmd.CommandText = "INSERT INTO " + AppPartDatabaseHelper.TABLE_NAME + " " +
+                        "SELECT t." + AppPartDatabaseHelper.COLUMN_ID + ", t." +
+                        AppPartDatabaseHelper.COLUMN_APP_PART_NAME + ", t." +
+                        AppPartDatabaseHelper.COLUMN_VERSION + " FROM " + AppPartDatabaseHelper.TEMP_TABLE_NAME + " t " +
+                        "LEFT OUTER JOIN " + AppPartDatabaseHelper.TABLE_NAME + " a ON (t." + AppPartDatabaseHelper.COLUMN_ID + " = " +
+                        "a." + AppPartDatabaseHelper.COLUMN_ID + ") " +
+                        "WHERE a." + AppPartDatabaseHelper.COLUMN_ID + " IS NULL";
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
             }
         }
 
@@ -400,7 +405,85 @@ namespace com.netinfocentral.ClayUI
          **/
         public void SaveAppPartData(string appPartName, FlowLayoutPanel layout)
         {
-            // TODO: Method Stub
+            ElementDataAdapter adapter = new ElementDataAdapter();
+            List<string> elementNames = new List<string>();
+            List<string> appPartValues = new List<string>();
+
+            // loop through layout components and get values for items with storeable data
+            foreach (Control control in layout.Controls)
+            {
+                if (control.GetType() == typeof(TextBox))
+                {
+                    TextBox textbox = (TextBox)control;
+                    appPartValues.Add(textbox.Text);
+                    Element element = adapter.GetElement(int.Parse(textbox.Name));
+                    elementNames.Add(element.ElementID + "." + element.ElementName);
+                }
+                else if (control.GetType() == typeof(CheckBox))
+                {
+                    CheckBox checkbox = (CheckBox)control;
+                    if (checkbox.Checked)
+                    {
+                        appPartValues.Add("1");
+                    }
+                    else
+                    {
+                        appPartValues.Add("0");
+                    }
+                    Element element = adapter.GetElement(int.Parse(checkbox.Name));
+                    elementNames.Add(element.ElementID + "." + element.ElementName);
+                }
+                else if (control.GetType() == typeof(ComboBox))
+                {
+                    ComboBox combobox = (ComboBox)control;
+                    appPartValues.Add(combobox.SelectedText);
+                    Element element = adapter.GetElement(int.Parse(combobox.Name));
+                    elementNames.Add(element.ElementID + "." + element.ElementName);
+                }
+                else if (control.GetType() == typeof(FlowLayoutPanel))
+                {
+                    FlowLayoutPanel radiogroup = (FlowLayoutPanel)control;
+
+                    foreach (Control cntrl in radiogroup.Controls)
+                    {
+                        if (cntrl.GetType() == typeof(RadioButton))
+                        {
+                            // TODO partial method stub.
+                        }
+                    }
+                }
+            }
+
+            // build insert query
+            string sql = "INSERT INTO " + appPartName + "(";
+
+            // iterate though list arrays to build insert query
+            foreach (string columnName in elementNames)
+            {
+                sql = sql + "'" + columnName + "', ";
+            }
+            // trim trailing ", "
+            sql = sql.Substring(0, sql.Length - 2) + ") VALUES (";
+
+            // iterate through values
+            foreach (string value in appPartValues)
+            {
+                sql = sql + "'" + value +"', ";
+            }
+            // trim trailing ", "
+            sql = sql.Substring(0, sql.Length - 2) + ")";
+
+            try
+            {
+                this._conn.Open();
+                SqlCeCommand cmd = this._conn.CreateCommand();
+                cmd.CommandText = sql;
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         /**

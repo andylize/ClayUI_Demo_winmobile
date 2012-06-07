@@ -28,9 +28,9 @@ namespace com.netinfocentral.ClayUI
                 for (int i = 0; i < array.Count; i++)
                 {
                     JObject jObject = JObject.Parse(array[i].ToString());
-                    AppPart appPart = new AppPart(int.Parse(jObject["AppPartID"].ToString()),
-                        jObject["AppPartName"].ToString(),
-                        int.Parse(jObject["Version"].ToString()));
+                    AppPart appPart = new AppPart(int.Parse(jObject["AppPartID"].ToString().Replace("\"", "")),
+                        jObject["AppPartName"].ToString().Replace("\"", ""),
+                        int.Parse(jObject["Version"].ToString().Replace("\"", "")));
 
                     // add to arraylist
                     appParts.Add(appPart);

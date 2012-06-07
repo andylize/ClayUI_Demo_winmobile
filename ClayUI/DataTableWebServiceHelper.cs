@@ -39,10 +39,10 @@ namespace com.netinfocentral.ClayUI
                 for (int i = 0; i < array.Count; i++)
                 {
                     JObject jObject = JObject.Parse(array[i].ToString());
-                    DataTableSchema schema = new DataTableSchema(jObject["column_name"].ToString(),
-                        jObject["data_type"].ToString(),
-                        int.Parse(jObject["length"].ToString()),
-                        int.Parse(jObject["is_primary_key"].ToString()));
+                    DataTableSchema schema = new DataTableSchema(jObject["column_name"].ToString().Replace("\"", ""),
+                        jObject["data_type"].ToString().Replace("\"", ""),
+                        int.Parse(jObject["length"].ToString().Replace("\"", "")),
+                        int.Parse(jObject["is_primary_key"].ToString().Replace("\"", "")));
 
                     // add to arraylist
                     tableSchema.Add(schema);

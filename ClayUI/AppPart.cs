@@ -121,7 +121,7 @@ namespace com.netinfocentral.ClayUI
                             break;
                         case ElementType.CLAYUI_COMBOBOX: 
                             panel.Controls.Add(this.CreateLabelUIElement(element));
-                            panel.Controls.Add(this.CreateCheckBoxUIElement(element, element.ElementID));
+                            panel.Controls.Add(this.CreateComboBoxUIElement(element, element.ElementID));
                             break;
                         case ElementType.CLAYUI_RADIOBUTTON:
                             panel.Controls.Add(this.CreateLabelUIElement(element));

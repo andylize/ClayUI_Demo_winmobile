@@ -26,11 +26,53 @@ namespace com.netinfocentral.ClayUI_Demo_win
             // instantiate ClayUI AppBase
             appBase = new ClayUIAppBase(1, BASE_URI_INTERNET);
 
+            // instantiate app parts
+            contactsAppPart = appBase.GetAppPart(1);
+            productsAppPart = appBase.GetAppPart(2);
+
+            // fetch app part elements
+            contactsAppPart.FetchElements();
+            contactsAppPart.RefreshPanel(this.contactsPanel);
+            productsAppPart.FetchElements();
+            productsAppPart.RefreshPanel(this.productsPanel);
         }
 
         private void testMenu_Click(object sender, EventArgs e)
         {
-            
+
+        }
+
+        private void saveProduct_Click(object sender, EventArgs e)
+        {
+            this.appBase.SaveAppPartDataLocal(productsAppPart, productsPanel);
+        }
+
+        private void contactSaveLocal_Click(object sender, EventArgs e)
+        {
+            this.appBase.SaveAppPartDataLocal(contactsAppPart, contactsPanel);
+        }
+
+        private void syncSchema_Click(object sender, EventArgs e)
+        {
+
+            Cursor oldcursor = Cursor.Current;
+            Cursor.Current = Cursors.WaitCursor;
+            appBase.SyncLayoutStructure();
+            contactsAppPart.FetchElements();
+            contactsAppPart.RefreshPanel(contactsPanel);
+            productsAppPart.FetchElements();
+            productsAppPart.RefreshPanel(productsPanel);
+
+            Cursor.Current = oldcursor;
+
+            MessageBox.Show("Layout updated.", "Update",
+                MessageBoxButtons.OK, MessageBoxIcon.None, MessageBoxDefaultButton.Button1);
+        }
+
+        private void syncData_Click(object sender, EventArgs e)
+        {
+            appBase.SaveAppPartDataWeb(contactsAppPart);
+            appBase.SaveAppPartDataWeb(productsAppPart);
         }
     }
 }

@@ -28,13 +28,13 @@ namespace com.netinfocentral.ClayUI
                 for (int i = 0; i < array.Count; i++)
                 {
                     JObject jObject = JObject.Parse(array[i].ToString());
-                    Element element = new Element(int.Parse(jObject["ElementID"].ToString()),
-                        int.Parse(jObject["AppPartID"].ToString()),
-                        jObject["ElementName"].ToString(),
-                        int.Parse(jObject["ElementType"].ToString()),
-                        jObject["Label"].ToString(),
-                        int.Parse(jObject["ListOrder"].ToString()),
-                        int.Parse(jObject["Version"].ToString()));
+                    Element element = new Element(int.Parse(jObject["ElementID"].ToString().Replace("\"", "")),
+                        int.Parse(jObject["AppPartID"].ToString().Replace("\"", "")),
+                        jObject["ElementName"].ToString().Replace("\"", ""),
+                        int.Parse(jObject["ElementType"].ToString().Replace("\"", "")),
+                        jObject["Label"].ToString().Replace("\"", ""),
+                        int.Parse(jObject["ListOrder"].ToString().Replace("\"", "")),
+                        int.Parse(jObject["Version"].ToString().Replace("\"", "")));
 
                     // add to arraylist
                     elements.Add(element);

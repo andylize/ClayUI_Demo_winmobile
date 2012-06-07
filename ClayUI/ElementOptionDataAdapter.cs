@@ -372,46 +372,49 @@ namespace com.netinfocentral.ClayUI
         // method to sync the temp table with the element options table
         private void Sync()
         {
-            try
+            using (this._conn = new SqlCeConnection(this._dbHelper.DatabaseConnStr))
             {
-                this._conn.Open();
-                SqlCeCommand cmd = this._conn.CreateCommand();
+                try
+                {
+                    this._conn.Open();
+                    SqlCeCommand cmd = this._conn.CreateCommand();
 
-                //delete records in app part table which are not in temp table
-                cmd.CommandText = "DELETE FROM " + ElementOptionDatabaseHelper.TABLE_NAME + " " +
-                    "WHERE " + ElementOptionDatabaseHelper.COLUMN_ID + " NOT IN (SELECT " + ElementOptionDatabaseHelper.COLUMN_ID +
-                    " FROM " + ElementOptionDatabaseHelper.TEMP_TABLE_NAME + ")";
-                cmd.ExecuteNonQuery();
+                    //delete records in app part table which are not in temp table (Delete all due to limitaion in SQL Compact Edition)
+                    cmd.CommandText = "DELETE FROM " + ElementOptionDatabaseHelper.TABLE_NAME;/** +" " +
+                        "WHERE " + ElementOptionDatabaseHelper.COLUMN_ID + " NOT IN (SELECT " + ElementOptionDatabaseHelper.COLUMN_ID +
+                        " FROM " + ElementOptionDatabaseHelper.TEMP_TABLE_NAME + ")";**/
+                    cmd.ExecuteNonQuery();
 
-                // update records that exist in both tables
-                cmd.CommandText = "UPDATE " + ElementOptionDatabaseHelper.TABLE_NAME + " " +
-                    "SET " + ElementOptionDatabaseHelper.COLUMN_APP_PART_ID + " = t." + ElementOptionDatabaseHelper.COLUMN_APP_PART_ID + ", " +
-                    ElementOptionDatabaseHelper.COLUMN_APP_PART_ID + " = t." + ElementOptionDatabaseHelper.COLUMN_APP_PART_ID + ", " +
-                    ElementOptionDatabaseHelper.COLUMN_ELEMENT_ID + " = t." + ElementOptionDatabaseHelper.COLUMN_ELEMENT_ID + ", " +
-                    ElementOptionDatabaseHelper.COLUMN_VALUE + " = t." + ElementOptionDatabaseHelper.COLUMN_VALUE + ", " +
-                    ElementOptionDatabaseHelper.COLUMN_DESCRIPTION + " = t." + ElementOptionDatabaseHelper.COLUMN_DESCRIPTION + ", " +
-                    ElementOptionDatabaseHelper.COLUMN_VERSION + " = t." + ElementOptionDatabaseHelper.COLUMN_VERSION + ", " +
-                    ElementOptionDatabaseHelper.TABLE_NAME + " JOIN " + ElementOptionDatabaseHelper.TEMP_TABLE_NAME + " t ON (" +
-                    ElementOptionDatabaseHelper.TABLE_NAME + "." + ElementOptionDatabaseHelper.COLUMN_ID + " = t." + ElementOptionDatabaseHelper.COLUMN_ID + ")";
-                cmd.ExecuteNonQuery();
+                    // update records that exist in both tables (skip due to limitatio in SQL Compact Edition)
+                    /**cmd.CommandText = "UPDATE " + ElementOptionDatabaseHelper.TABLE_NAME + " " +
+                        "SET " + ElementOptionDatabaseHelper.COLUMN_APP_PART_ID + " = t." + ElementOptionDatabaseHelper.COLUMN_APP_PART_ID + ", " +
+                        ElementOptionDatabaseHelper.COLUMN_APP_PART_ID + " = t." + ElementOptionDatabaseHelper.COLUMN_APP_PART_ID + ", " +
+                        ElementOptionDatabaseHelper.COLUMN_ELEMENT_ID + " = t." + ElementOptionDatabaseHelper.COLUMN_ELEMENT_ID + ", " +
+                        ElementOptionDatabaseHelper.COLUMN_VALUE + " = t." + ElementOptionDatabaseHelper.COLUMN_VALUE + ", " +
+                        ElementOptionDatabaseHelper.COLUMN_DESCRIPTION + " = t." + ElementOptionDatabaseHelper.COLUMN_DESCRIPTION + ", " +
+                        ElementOptionDatabaseHelper.COLUMN_VERSION + " = t." + ElementOptionDatabaseHelper.COLUMN_VERSION + ", " +
+                        ElementOptionDatabaseHelper.TABLE_NAME + " JOIN " + ElementOptionDatabaseHelper.TEMP_TABLE_NAME + " t ON (" +
+                        ElementOptionDatabaseHelper.TABLE_NAME + "." + ElementOptionDatabaseHelper.COLUMN_ID + " = t." + ElementOptionDatabaseHelper.COLUMN_ID + ")";
+                    cmd.ExecuteNonQuery();**/
 
-                // insert records that do not exist in app parts table
-                cmd.CommandText = "INSERT INTO " + ElementOptionDatabaseHelper.TABLE_NAME + " " +
-                    "SELECT " + ElementOptionDatabaseHelper.COLUMN_ID + ", " +
-                    ElementOptionDatabaseHelper.COLUMN_APP_PART_ID + ", " +
-                    ElementOptionDatabaseHelper.COLUMN_ELEMENT_ID + ", " +
-                    ElementOptionDatabaseHelper.COLUMN_VALUE + ", " +
-                    ElementOptionDatabaseHelper.COLUMN_DESCRIPTION + ", " +
-                    ElementOptionDatabaseHelper.COLUMN_VERSION + 
-                    " FROM " + AppPartDatabaseHelper.TEMP_TABLE_NAME + " t " +
-                    "LEFT OUTER JOIN " + ElementOptionDatabaseHelper.TABLE_NAME + " a ON (t." + ElementOptionDatabaseHelper.COLUMN_ID + " = " +
-                    "a." + ElementOptionDatabaseHelper.COLUMN_ID + ") " +
-                    "WHERE a." + ElementOptionDatabaseHelper.COLUMN_ID + " IS NULL";
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
+                    // insert records that do not exist in app parts table
+                    cmd.CommandText = "INSERT INTO " + ElementOptionDatabaseHelper.TABLE_NAME + " " +
+                        "SELECT t." + ElementOptionDatabaseHelper.COLUMN_ID + ", t." +
+                        ElementOptionDatabaseHelper.COLUMN_APP_PART_ID + ", t." +
+                        ElementOptionDatabaseHelper.COLUMN_ELEMENT_ID + ", t." +
+                        ElementOptionDatabaseHelper.COLUMN_VALUE + ", t." +
+                        ElementOptionDatabaseHelper.COLUMN_DESCRIPTION + ", t." +
+                        ElementOptionDatabaseHelper.COLUMN_VERSION +
+                        " FROM " + AppPartDatabaseHelper.TEMP_TABLE_NAME + " t " +
+                        "LEFT OUTER JOIN " + ElementOptionDatabaseHelper.TABLE_NAME + " a ON (t." + ElementOptionDatabaseHelper.COLUMN_ID + " = " +
+                        "a." + ElementOptionDatabaseHelper.COLUMN_ID + ") " +
+                        "WHERE a." + ElementOptionDatabaseHelper.COLUMN_ID + " IS NULL";
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
             }
         }
     }
